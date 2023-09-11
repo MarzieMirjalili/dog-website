@@ -1,14 +1,14 @@
-import { QueryClient, QueryClientProvider } from "react-query";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { DogsList } from "./pages/dogsList/DogsList";
 
-const querClient = new QueryClient();
-
 function App() {
   return (
-    <QueryClientProvider client={querClient}>
-      <DogsList />
-    </QueryClientProvider>
+    <Routes>
+      <Route path="/">
+        <Route index element={<DogsList />} />
+      </Route>
+    </Routes>
   );
 }
 

@@ -1,7 +1,9 @@
 import axios from "axios";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
+import { Modal } from "../../../../components/Modal";
+import { BreedImagesList } from "./components/BreedImagesList";
 
 type BreedPropsType = {
   title: string;
@@ -19,11 +21,13 @@ const StyledContainer = styled.div`
 const StyledImage = styled.img`
   object-fit: cover;
   width: 100%;
-  height: 250px;
+  aspect-ratio: 1/1;
   border-radius: 15px;
 `;
 
 export const Breed: FC<BreedPropsType> = ({ title }) => {
+  const [open, setOpen] = useState(false);
+
   const { isLoading, isError, data, error } = useQuery<
     RandomImageResponseType,
     Error
@@ -42,7 +46,16 @@ export const Breed: FC<BreedPropsType> = ({ title }) => {
     return <div>data not found</div>;
   }
   return (
-    <StyledContainer>
+    <StyledContainer onClick={() => setOpen(true)}>
+      <Modal
+        onClose={() => {
+          console.log("close");
+          setOpen(false);
+        }}
+        open={open}
+      >
+        <BreedImagesList title={title} />
+      </Modal>
       <StyledImage src={data?.message} alt={title} />
       <p>{title}</p>
     </StyledContainer>
